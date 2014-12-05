@@ -29,6 +29,18 @@ RUN cd /home/git; /home/git/bin/gitolite setup -a dummy
 
 # Copy over our gitolite.conf and hives directory
 ADD gitolite.conf /home/git/.gitolite/conf/gitolite.conf
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "We need to add the post-receive hook to enqueue SQS messages!"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+RUN echo "ACK ACK ACK ACK"
+
 RUN mkdir -p /home/git/.gitolite/conf/hives
 RUN /home/git/bin/gitolite compile
 RUN /home/git/bin/gitolite trigger POST_COMPILE

@@ -11,8 +11,11 @@ processes = [
   {dir: curdir, cmd: "sudo docker run --name sqs-dev -p 4100:4568 smaj/spurious-sqs"},
   {dir: curdir, cmd: "sudo docker run --name sqs-test -p 4101:4568 smaj/spurious-sqs"},
 
-  {dir: curdir, cmd: "sudo docker run --name pg-dev -p 4300:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres:latest"},
-  {dir: curdir, cmd: "sudo docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres:latest"},
+  {dir: curdir, cmd: "sudo docker run --name pg-dev -p 4300:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing postgres:latest"},
+  {dir: curdir, cmd: "sudo docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing postgres:latest"},
+
+  {dir: curdir, cmd: "sudo docker run --name ddb-dev -p 3800:4570  smaj/spurious-dynamo"},
+  {dir: curdir, cmd: "sudo docker run --name ddb-test -p 3801:4570 smaj/spurious-dynamo"},
 
   {dir: curdir, cmd: "sudo docker run --name s3-dev -p 4200:4569 smaj/spurious-s3"},
   {dir: curdir, cmd: "sudo docker run --name s3-test -p 4201:4569 smaj/spurious-s3"}
