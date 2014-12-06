@@ -29,8 +29,8 @@ You need to start them up in this order.
   * docker run --name redis-test -p 3901:6379 redis:latest
 
 ## Fake SQS
-  * docker run --name sqs-dev  -p 4100:4568 smaj/spurious-sqs
-  * docker run --name sqs-test -p 4101:4568 smaj/spurious-sqs
+  * docker run --name sqs-dev  -p 4100:4568 caryfitzhugh/spurious-sqs
+  * docker run --name sqs-test -p 4101:4568 caryfitzhugh/spurious-sqs
 
 ## Fake S3
   * docker run --name s3-dev -p 4200:4569 smaj/spurious-s3

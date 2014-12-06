@@ -8,8 +8,8 @@ processes = [
   {dir: curdir, cmd: "sudo docker run --name redis-dev -p 3900:6379 redis:latest"},
   {dir: curdir, cmd: "sudo docker run --name redis-test -p 3901:6379 redis:latest"},
 
-  {dir: curdir, cmd: "sudo docker run --name sqs-dev -p 4100:4568 smaj/spurious-sqs"},
-  {dir: curdir, cmd: "sudo docker run --name sqs-test -p 4101:4568 smaj/spurious-sqs"},
+  {dir: curdir, cmd: "sudo docker run --name sqs-dev -p 4100:4568 caryfitzhugh/spurious-sqs"},
+  {dir: curdir, cmd: "sudo docker run --name sqs-test -p 4101:4568 caryfitzhugh/spurious-sqs"},
 
   {dir: curdir, cmd: "sudo docker run --name pg-dev -p 4300:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing postgres:latest"},
   {dir: curdir, cmd: "sudo docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing postgres:latest"},
