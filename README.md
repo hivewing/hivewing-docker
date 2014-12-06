@@ -14,11 +14,11 @@
 
 * Hivewing-Images
   * docker run --name hivewing-images
-    --link redis-dev:redis-dev \
-    --link sqs-dev:sqs-dev \
-    --link ddb-dev:ddb-dev \
-    --link pg-dev:pg-dev \
-    --link s3-dev:s3-dev \
+    --link redis-dev:redis \
+    --link sqs-dev:sqs \
+    --link ddb-dev:ddb \
+    --link pg-dev:pg \
+    --link s3-dev:s3 \
     --env-file ../development.env <the-ref-of-the-build>
 
 # Running
