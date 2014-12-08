@@ -13,13 +13,7 @@
 # Applications
 
 * Hivewing-Images
-  * docker run --name hivewing-images
-    --link redis-dev:redis \
-    --link sqs-dev:sqs \
-    --link ddb-dev:ddb \
-    --link pg-dev:pg \
-    --link s3-dev:s3 \
-    --env-file ../development.env <the-ref-of-the-build>
+  * docker run --name hivewing-images --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file development.env $1
 
 # Running
 You need to start them up in this order.
@@ -41,5 +35,5 @@ You need to start them up in this order.
   * docker run --name ddb-test -p 3801:4570 smaj/spurious-dynamo
 
 # Postgresql
-  * docker run --name pg-dev -p 4300:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres:latest
-  * docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres:latest
+  * docker run --name pg-dev -p 4300:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres
+  * docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres

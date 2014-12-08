@@ -27,20 +27,17 @@ RUN cd /home/git; gitolite/install -ln /home/git/bin
 #Following this:  http://gitolite.com/gitolite/odds-and-ends.html#server-side-admin
 RUN cd /home/git; /home/git/bin/gitolite setup -a dummy
 
-# Copy over our gitolite.conf and hives directory
+# Copy over our gitolite.conf
 ADD gitolite.conf /home/git/.gitolite/conf/gitolite.conf
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "We need to add the post-receive hook to enqueue SQS messages!"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
-RUN echo "ACK ACK ACK ACK"
 
+# Add the post-receive hook we need for the SQS push
+ADD gitolite.post-receive.hook /home/git/.gitolite/hooks/common/post-receive
+RUN chmod 755 /home/git/.gitolite/hooks/common/post-receive
+
+# Run the setup again?.
+RUN cd /home/git; /home/git/bin/gitolite setup
+
+# Add the config file and hives dir.
 RUN mkdir -p /home/git/.gitolite/conf/hives
 RUN /home/git/bin/gitolite compile
 RUN /home/git/bin/gitolite trigger POST_COMPILE
@@ -48,7 +45,7 @@ RUN /home/git/bin/gitolite trigger POST_COMPILE
 # Create the supervisor
 ADD /start-images.sh /home/git/start-images.sh
 ADD /run.sh /home/git/run.sh
-ADD /supervisord-images.conf /etc/supervisor/conf.d/supervisord-images.conf
+ADD /supervisord-images.conf /home/git/supervisord-images.conf
 
 # Add the uberjar
 ADD hivewing-images.jar /home/git/hivewing-images.jar

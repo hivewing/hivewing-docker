@@ -1,3 +1,3 @@
 #!/bin/bash
 service ssh start
-exec supervisord -n
+exec supervisord -c supervisord-images.conf
