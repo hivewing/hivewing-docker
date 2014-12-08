@@ -10,6 +10,13 @@
 * DynamoDB
 * Postgresql
 
+
+# How To
+* First make sure that you have a good profiles.clj file in hivewing-core
+* Then run ./start-all in the docker repo.
+* That spins up the helper services and then migrates, sets up ddb, etc.
+* You can then start up individual services, like hivewing-images, control, or api with their scripts.
+
 # Applications
 
 * Hivewing-Images
