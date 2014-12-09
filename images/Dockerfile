@@ -19,7 +19,6 @@ RUN mkdir -p /home/git/bin
 
 RUN wget -O /home/git/bin/lein https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
 RUN chmod 0755 /home/git/bin/lein
-RUN echo `whoami`
 
 RUN cd /home/git; git clone git://github.com/sitaramc/gitolite
 RUN cd /home/git; gitolite/install -ln /home/git/bin
@@ -45,7 +44,7 @@ RUN /home/git/bin/gitolite trigger POST_COMPILE
 # Create the supervisor
 ADD /start-images.sh /home/git/start-images.sh
 ADD /run.sh /home/git/run.sh
-ADD /supervisord-images.conf /home/git/supervisord-images.conf
+ADD /supervisord.conf /home/git/supervisord.conf
 
 # Add the uberjar
 ADD hivewing-images.jar /home/git/hivewing-images.jar
