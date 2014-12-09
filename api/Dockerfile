@@ -1,6 +1,7 @@
 #
-FROM dockerfile/java
-RUN sudo apt-get update
+FROM ubuntu:14.04
+RUN sudo apt-get update -q
+RUN apt-get install -qy supervisor sudo build-essential openjdk-7-jre
 
 RUN adduser --system --group --shell /bin/sh hivewing
 RUN echo "hivewing    ALL=(ALL:ALL) ALL" > /etc/sudoers
@@ -20,4 +21,4 @@ WORKDIR /home/hivewing
 USER    hivewing
 
 EXPOSE 3000
-CMD ["/srv/run.sh"]
+CMD ["/home/hivewing/run.sh"]
