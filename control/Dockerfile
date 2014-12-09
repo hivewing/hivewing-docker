@@ -1,8 +1,24 @@
 #
-FROM dockerfile/java
-RUN sudo apt-get update
+FROM ubuntu:14.04
+RUN sudo apt-get update -q
+RUN apt-get install -qy supervisor sudo build-essential openjdk-7-jre
 
-ADD hivewing-control.jar /srv/hivewing-control.jar
+RUN adduser --system --group --shell /bin/sh hivewing
+RUN echo "hivewing    ALL=(ALL:ALL) ALL" > /etc/sudoers
+RUN echo hivewing:hivewing | chpasswd
 
-EXPOSE 80
-CMD ["java", "-jar", "/srv/hivewing-control.jar"]
+ADD /hivewing-control.uber.jar  /home/hivewing/hivewing-control.jar
+
+ADD /run.sh /home/hivewing/run.sh
+ADD /supervisord.conf /home/hivewing/supervisord.conf
+ADD /start-control.sh /home/hivewing/start-control.sh
+
+RUN chmod 755 /home/hivewing/*.sh
+RUN chown -R hivewing /home/hivewing
+
+ENV     HOME /home/hivewing
+WORKDIR /home/hivewing
+USER    hivewing
+
+EXPOSE 4000
+CMD ["/home/hivewing/run.sh"]
