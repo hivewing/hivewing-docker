@@ -1,60 +1,60 @@
-FROM ubuntu:14.04
+# Gitolite server
+#
+# Example:
+# 	Build:
+#		 docker build -t gitolite .
+#
+# 	Run:
+#    docker run -d --name gitolite -p 22022:22 -v /var/data/git:/home/git/repositories -e SSH_KEY="$(cat ~/.ssh/id_rsa.pub)"  gitolite
 
-RUN apt-get update -q
-RUN apt-get install -qy supervisor sudo openssh-server build-essential git openjdk-7-jre wget
+FROM ubuntu
+MAINTAINER Beta CZ <hlj8080@gmail.com>
 
-# Generate the system keys
-RUN /usr/bin/ssh-keygen -A
+# install requirements
+RUN apt-get update
+RUN apt-get install -y git perl openssh-server supervisor openjdk-7-jre
 
-RUN adduser --system --group --shell /bin/sh git
-RUN echo "user    ALL=(ALL:ALL) ALL" > /etc/sudoers
-RUN echo git:git | chpasswd
+# create 'git' user
+RUN useradd git -m
 
-# This is now a git user with leiningen installed
-RUN locale-gen en_US.UTF-8
-RUN dpkg-reconfigure locales
+# install gitolite
+RUN su - git -c 'git clone git://github.com/sitaramc/gitolite'
+RUN su - git -c 'mkdir -p $HOME/bin \
+	&& gitolite/install -to $HOME/bin'
 
-RUN mkdir -p /var/run/sshd
-RUN mkdir -p /home/git/bin
+# setup with built-in ssh key
+RUN ssh-keygen -f admin -t rsa -N ''
+RUN su - git -c '$HOME/bin/gitolite setup -pk /admin.pub'
 
-RUN wget -O /home/git/bin/lein https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
-RUN chmod 0755 /home/git/bin/lein
+# prevent the perl warning
+RUN sed  -i 's/AcceptEnv/# \0/' /etc/ssh/sshd_config
 
-RUN cd /home/git; git clone git://github.com/sitaramc/gitolite
-RUN cd /home/git; gitolite/install -ln /home/git/bin
+# fix fatal: protocol error: bad line length character: Welc
+RUN sed -i 's/session\s\+required\s\+pam_loginuid.so/# \0/' /etc/pam.d/sshd
 
-#Following this:  http://gitolite.com/gitolite/odds-and-ends.html#server-side-admin
-RUN cd /home/git; /home/git/bin/gitolite setup -a dummy
+RUN mkdir /var/run/sshd
 
-# Copy over our gitolite.conf
-ADD gitolite.conf /home/git/.gitolite/conf/gitolite.conf
+ADD start.sh /start.sh
+RUN chmod a+x /start.sh
 
-# Add the post-receive hook we need for the SQS push
-ADD gitolite.post-receive.hook /home/git/.gitolite/hooks/common/post-receive
-RUN chmod 755 /home/git/.gitolite/hooks/common/post-receive
+# Start images (called from supervisord)
+ADD start-images.sh /home/git/start-images.sh
+RUN chmod 755 /home/git/start-images.sh
 
-# Run the setup again?.
-RUN cd /home/git; /home/git/bin/gitolite setup
+# Supervisord setup
+ADD supervisord.conf /home/git/supervisord.conf
 
-# Add the config file and hives dir.
-RUN mkdir -p /home/git/.gitolite/conf/hives
-RUN /home/git/bin/gitolite compile
-RUN /home/git/bin/gitolite trigger POST_COMPILE
-
-# Create the supervisor
-ADD /start-images.sh /home/git/start-images.sh
-ADD /run.sh /home/git/run.sh
-ADD /supervisord.conf /home/git/supervisord.conf
-
-# Add the uberjar
+# Hivewing images jar.
 ADD hivewing-images.jar /home/git/hivewing-images.jar
 
-RUN chmod 755 /home/git/*.sh
-RUN chown -R git /home/git
+# Post Recieve hook
+ADD gitolite.post-receive.hook /home/git/.gitolite/hooks/common/post-receive
 
-ENV     HOME /home/git
-WORKDIR /home/git
-#USER    git
+# Gitolite.conf
+ADD gitolite.conf /home/git/.gitolite/conf/gitolite.conf
+
+RUN chown -R git /home/git
+RUN chgrp -R git /home/git
 
 EXPOSE 22
-CMD ["/home/git/run.sh"]
+CMD ["/start.sh"]

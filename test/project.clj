@@ -5,7 +5,7 @@
   :dependencies [
                  [environ "1.0.0"]
                  [org.clojure/clojure "1.6.0"]
-                 [hivewing-core "0.1.2"]
+                 [hivewing-core "0.1.3-SNAPSHOT"]
                 ]
   :repositories [["hivewing-core" {:url "s3p://clojars.hivewing.io/hivewing-core/releases"
                                    :username "AKIAJCSUM5ZFGI7DW5PA"

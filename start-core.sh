@@ -1,22 +1,32 @@
 #! /bin/bash
 echo "Starting Redis"
+sudo docker rm -f redis-dev
 sudo docker run -d --name redis-dev -p 3900:6379 redis:latest
+sudo docker rm -f redis-test
 sudo docker run -d --name redis-test -p 3901:6379 redis:latest
 
 echo "Starting SQS"
+sudo docker rm -f sqs-dev
 sudo docker run -d --name sqs-dev -p 4100:4568 caryfitzhugh/spurious-sqs
+sudo docker rm -f sqs-test
 sudo docker run -d --name sqs-test -p 4101:4568 caryfitzhugh/spurious-sqs
 
 echo "Starting PG"
+sudo docker rm -f pg-dev
 sudo docker run --name pg-dev -p 4300:5432  -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres
+sudo docker rm -f pg-test
 sudo docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres
 
 echo "Starting DDB"
+sudo docker rm -f ddb-dev
 sudo docker run -d --name ddb-dev -p 3800:4570  smaj/spurious-dynamo
+sudo docker rm -f ddb-test
 sudo docker run -d --name ddb-test -p 3801:4570 smaj/spurious-dynamo
 
 echo "Starting S3"
+sudo docker rm -f s3-dev
 sudo docker run -d --name s3-dev -p 4200:4569 smaj/spurious-s3
+sudo docker rm -f s3-test
 sudo docker run -d --name s3-test -p 4201:4569 smaj/spurious-s3
 
 echo "Waiting..."
