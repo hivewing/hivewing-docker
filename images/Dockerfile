@@ -19,12 +19,12 @@ RUN useradd git -m
 
 # install gitolite
 RUN su - git -c 'git clone git://github.com/sitaramc/gitolite'
-RUN su - git -c 'mkdir -p $HOME/bin \
-	&& gitolite/install -to $HOME/bin'
+RUN su - git -c 'mkdir -p /home/git/bin \
+	&& gitolite/install -to /home/git/bin'
 
 # setup with built-in ssh key
 RUN ssh-keygen -f admin -t rsa -N ''
-RUN su - git -c '$HOME/bin/gitolite setup -pk /admin.pub'
+RUN su - git -c '/home/git/bin/gitolite setup -pk /admin.pub'
 
 # prevent the perl warning
 RUN sed  -i 's/AcceptEnv/# \0/' /etc/ssh/sshd_config
