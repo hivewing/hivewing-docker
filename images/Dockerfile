@@ -49,6 +49,7 @@ ADD hivewing-images.jar /home/git/hivewing-images.jar
 
 # Post Recieve hook
 ADD gitolite.post-receive.hook /home/git/.gitolite/hooks/common/post-receive
+RUN chmod 755 /home/git/.gitolite/hooks/common/post-receive
 
 # Gitolite.conf
 ADD gitolite.conf /home/git/.gitolite/conf/gitolite.conf
