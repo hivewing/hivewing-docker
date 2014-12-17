@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-echo "Pushing info to SQS"
-echo Updated $GL_REPO repository
-exec java -cp /home/git/hivewing-images.jar hivewing_images.git_hooks post-receive $GL_REPO
+echo Updated $GL_REPO hive
+source /tmp/hivewing-env
+java -cp /home/git/hivewing-images.jar hivewing_images.git_hooks post-receive $GL_REPO 2>&1 > /home/git/hivewing-post-hook.log

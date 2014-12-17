@@ -20,10 +20,10 @@
   (def hive-uuid (:hive-uuid res))
   (def pk (slurp "./testuser.public"))
   (public-key-create (:bk-uuid res) pk)
-  (push-repo (str "ssh://git@localhost:5022/" hive-uuid) "./tester@test.com")
   (def beekeeper-uuid (:uuid (beekeeper-find-by-email "testing1@gmail.com")))
   (hive-images-notification-send-hive-update-message hive-uuid)
-
+  (hive-images-notification-send-beekeeper-update-message beekeeper-uuid)
+  (hive-images-notification-send-images-update-message hive-uuid)
   )
 
 

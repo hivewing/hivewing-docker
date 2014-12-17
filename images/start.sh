@@ -11,6 +11,10 @@ else
   cat /admin
 fi
 
+# Dump env into a file
+env | grep "HIVEWING_" > /tmp/hivewing-env
+sed -i -e 's/^/export /' /tmp/hivewing-env
+
 # Start hivewing-images
 supervisord -c /home/git/supervisord.conf
 echo "Started supervisord.conf"
