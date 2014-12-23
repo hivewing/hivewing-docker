@@ -15,15 +15,25 @@
   (:gen-class))
 
 (comment
-  (cleanup-beekeeper "testing1@gmail.com")
-  (def res (create-beekeeper "testing1@gmail.com"))
+  (cleanup-beekeeper "admin@example.com")
+  (def res (create-beekeeper "admin@example.com"))
   (def hive-uuid (:hive-uuid res))
   (def pk (slurp "./testuser.public"))
   (public-key-create (:bk-uuid res) pk)
-  (def beekeeper-uuid (:uuid (beekeeper-find-by-email "testing1@gmail.com")))
+  (def beekeeper-uuid (:uuid (beekeeper-find-by-email "admin@example.com")))
+  (beekeeper-set-password beekeeper-uuid "H1vewing")
+  (beekeeper-validate "admin@example.com" "H1vewing")
+  (def hive-uuids (map :hive_uuid (hive-managers-managing beekeeper-uuid)))
+  (def hives      (map #(hive-get %) hive-uuids))
+
+  ; Test it still works with incomplete data.
+  (beekeeper-get "12345678-1234-1234-1234-12345678")
+
   (hive-images-notification-send-hive-update-message hive-uuid)
   (hive-images-notification-send-beekeeper-update-message beekeeper-uuid)
   (hive-images-notification-send-images-update-message hive-uuid)
+
+
   )
 
 
