@@ -27,7 +27,18 @@
     (def hive-uuids (map :hive_uuid (hive-managers-managing beekeeper-uuid)))
     (def hives      (map #(hive-get %) hive-uuids))
     (def workers    (map #(worker-get (:uuid %)) (worker-list hive-uuid)))
+    (def config     (worker-config-get (:uuid (first workers))
+                                       :include-system-keys true))
+
+    "17e556f8-9074-11e4-893a-0242ac110034"
     )
+    (worker-config-get "123" :include-system-keys true)
+    (worker-config-set "123" {".secret" "123"} :allow-system-keys true)
+
+    (worker-config-set-hive-image "123" "NEW_URL" "123")
+    (def worker-uuids (map :uuid workers))
+    (worker-config-set-hive-image (:uuid (first workers)) hive-uuid package-url)
+    (hive-update-hive-image-url hive-uuid package-url)
 
     ; Test it still works with incomplete data.
     (beekeeper-get "12345678-1234-1234-1234-12345678")
