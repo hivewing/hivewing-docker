@@ -15,19 +15,22 @@
   (:gen-class))
 
 (comment
-  (cleanup-beekeeper "admin@example.com")
-  (def res (create-beekeeper "admin@example.com"))
-  (def hive-uuid (:hive-uuid res))
-  (def pk (slurp "./testuser.public"))
-  (public-key-create (:bk-uuid res) pk)
-  (def beekeeper-uuid (:uuid (beekeeper-find-by-email "admin@example.com")))
-  (beekeeper-set-password beekeeper-uuid "H1vewing")
-  (beekeeper-validate "admin@example.com" "H1vewing")
-  (def hive-uuids (map :hive_uuid (hive-managers-managing beekeeper-uuid)))
-  (def hives      (map #(hive-get %) hive-uuids))
+  (do
+    (cleanup-beekeeper "admin@example.com")
+    (def res (create-beekeeper "admin@example.com"))
+    (def hive-uuid (:hive-uuid res))
+    (def pk (slurp "./testuser.public"))
+    (public-key-create (:bk-uuid res) pk)
+    (def beekeeper-uuid (:uuid (beekeeper-find-by-email "admin@example.com")))
+    (beekeeper-set-password beekeeper-uuid "H1vewing")
+    (beekeeper-validate "admin@example.com" "H1vewing")
+    (def hive-uuids (map :hive_uuid (hive-managers-managing beekeeper-uuid)))
+    (def hives      (map #(hive-get %) hive-uuids))
+    (def workers    (map #(worker-get (:uuid %)) (worker-list hive-uuid)))
+    )
 
-  ; Test it still works with incomplete data.
-  (beekeeper-get "12345678-1234-1234-1234-12345678")
+    ; Test it still works with incomplete data.
+    (beekeeper-get "12345678-1234-1234-1234-12345678")
 
   (hive-images-notification-send-hive-update-message hive-uuid)
   (hive-images-notification-send-beekeeper-update-message beekeeper-uuid)
@@ -66,8 +69,8 @@
     (cleanup-beekeeper email)
     (let [beekeeper-uuid (:uuid (beekeeper-create {:email email}))
         apiary-uuid    (:uuid (apiary-create {:beekeeper_uuid beekeeper-uuid}))
-        hive-uuid      (:uuid (hive-create {:apiary_uuid apiary-uuid}))
-        hive-manager-uuid (:uuid   (hive-manager-create hive-uuid beekeeper-uuid))
+        hive-uuid      (:uuid (hive-create {:name "chunky" :apiary_uuid apiary-uuid}))
+        hive-manager-uuid (:uuid   (hive-manager-create hive-uuid beekeeper-uuid :can_write true))
         worker-result  (worker-create {:apiary_uuid apiary-uuid :hive_uuid hive-uuid})
         worker-retrieval  (worker-get (:uuid worker-result))
         ]
