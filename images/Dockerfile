@@ -45,7 +45,7 @@ RUN chmod 755 /home/git/start-images.sh
 ADD supervisord.conf /home/git/supervisord.conf
 
 # Hivewing images jar.
-ADD hivewing-images.jar /home/git/hivewing-images.jar
+ADD hivewing-images.uber.jar /home/git/hivewing-images.jar
 
 # Post Recieve hook
 ADD gitolite.post-receive.hook /home/git/.gitolite/hooks/common/post-receive
