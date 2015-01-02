@@ -1,21 +1,10 @@
 #! /bin/bash
 
-pushd .
-cd images
-./rebuild.sh
-popd
 
-pushd .
-cd api
-./rebuild.sh
-popd
-
-pushd .
-cd web
-./rebuild.sh
-popd
-
-pushd .
-cd control
-./rebuild.sh
-popd
+for dir in images api web control
+do
+    pushd .
+    cd $dir
+    ./rebuild.sh
+    popd
+done
