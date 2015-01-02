@@ -1,5 +1,12 @@
 #! /bin/bash
 DOCKER_PWD=`pwd`
+
+echo "Stopping services"
+sudo docker rm -f hivewing-images
+sudo docker rm -f hivewing-api
+sudo docker rm -f hivewing-control
+sudo docker rm -f hivewing-web
+
 echo "Starting Redis"
 sudo docker rm -f redis-dev
 sudo docker run -d --name redis-dev -p 3900:6379 redis:latest
@@ -74,4 +81,10 @@ pushd .
   lein seed "admin@example.com" $DOCKER_PWD/ssh/admin@example.com.public 12345678-1234-1234-1234-123456789012
 popd
 
-echo "Done..."
+echo "Running hivewing.io/images"
+echo "Images Server running ssh on "
+echo "     localhost:5022"
+echo ""
+sudo docker rm -f hivewing-images
+sudo docker run -d -p 5022:22 --name hivewing-images --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --link s3-dev:hive-images.hivewing.io.s3 --env-file container.env hivewing.io/images
+#sudo docker run -i  -p 5022:22 --name hivewing-images --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/images bash
