@@ -1,4 +1,5 @@
 #! /bin/bash
+DOCKER_PWD=`pwd`
 echo "Starting Redis"
 sudo docker rm -f redis-dev
 sudo docker run -d --name redis-dev -p 3900:6379 redis:latest
@@ -69,6 +70,8 @@ pushd .
   echo "Setup AWS"
   lein setup-aws
 
-  echo "Seeding DB"
-  lein seed
+  echo "Seeding DB with admin@example.com"
+  lein seed "admin@example.com" $DOCKER_PWD/ssh/admin@example.com.public 12345678-1234-1234-1234-123456789012
 popd
+
+echo "Done..."
