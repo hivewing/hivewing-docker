@@ -16,6 +16,7 @@
      :hivewing-gitolite-repositories-root "/home/gitolite/repositories"
      :hivewing-hive-images-bucket-name "hive-images.hivewing.io"
      :hivewing-s3-endpoint "http://127.0.0.1:4200"
+     :hivewing-simpledb-endpoint "http://127.0.0.1:4400"
     },
    },
  :test {
@@ -34,6 +35,7 @@
      :hivewing-gitolite-repositories-root "/home/gitolite/repositories"
      :hivewing-hive-images-bucket-name "hive-images.hivewing.io"
      :hivewing-s3-endpoint "http://127.0.0.1:4201"
+     :hivewing-simpledb-endpoint "http://127.0.0.1:4401"
     }
   }
 }
