@@ -15,6 +15,7 @@ ADD /start-control.sh /home/hivewing/start-control.sh
 
 RUN chmod 755 /home/hivewing/*.sh
 RUN chown -R hivewing /home/hivewing
+RUN mkdir -p /home/hivewing/logs
 
 ENV     HOME /home/hivewing
 WORKDIR /home/hivewing
