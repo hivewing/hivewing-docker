@@ -6,7 +6,7 @@ popd
 
 pushd .
 cd control
-cp ../../hivewing-control/target/uberjar/*.uber.jar hivewing-control.uber.jar
+cp ../../hivewing-control/target/*.uber.jar hivewing-control.uber.jar
 ./rebuild.sh
 
 popd

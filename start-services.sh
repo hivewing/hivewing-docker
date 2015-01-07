@@ -1,8 +1,11 @@
 #! /bin/bash
 CUR_PWD=`pwd`
 echo "Setting logs dir permissions..."
+sudo rm -rf logs/hivewing-api.log
 sudo touch logs/hivewing-api.log
+sudo rm -rf logs/hivewing-control.log
 sudo touch logs/hivewing-control.log
+sudo rm -rf logs/hivewing-web.log
 sudo touch logs/hivewing-web.log
 sudo chmod 777 -R logs
 
@@ -13,13 +16,13 @@ sudo docker run -d -p 5000:3000 --name hivewing-api --link redis-dev:redis --lin
 
 echo "Running hivewing.io/control"
 sudo docker rm -f hivewing-control
-sudo docker run -d -p 6000:4000 --name hivewing-control --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $CUR_PWD/logs/hivewing-control.log:/home/hivewing/hivewing-control.log hivewing.io/control
-#sudo docker run -i --name hivewing-control --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/control bash
+sudo docker run -d -p 6000:6000 --name hivewing-control --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $CUR_PWD/logs/hivewing-control.log:/home/hivewing/hivewing-control.log hivewing.io/control
+#sudo docker run -i -p 6000:6000 --name hivewing-control --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $CUR_PWD/logs/hivewing-control.log:/home/hivewing/hivewing-control.log hivewing.io/control
 
 echo "Running hivewing.io/web"
 sudo docker rm -f hivewing-web
 sudo docker run -d -p 8000:3000 --name hivewing-web --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $CUR_PWD/logs/hivewing-web.log:/home/hivewing/hivewing-web.log hivewing.io/web
-#sudo docker run -i -p 8000:3000 --name hivewing-web --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/web bash
+#sudo docker run -i -p 8000:3000 --name hivewing-web --link redis-dev:redis --link ddb-dev:ddb --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $CUR_PWD/logs/hivewing-web.log:/home/hivewing/hivewing-web.log hivewing.io/web
 
 echo "*********************************************************************************"
 echo "*********************************************************************************"

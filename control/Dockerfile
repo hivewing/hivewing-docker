@@ -21,5 +21,5 @@ ENV     HOME /home/hivewing
 WORKDIR /home/hivewing
 USER    hivewing
 
-EXPOSE 4000
+EXPOSE 6000
 CMD ["/home/hivewing/run.sh"]

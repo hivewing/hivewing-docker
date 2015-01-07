@@ -25,18 +25,6 @@ sudo docker run --name pg-dev -p 4300:5432  -e POSTGRES_PASSWORD=hivewing -e POS
 sudo docker rm -f pg-test
 sudo docker run --name pg-test -p 4301:5432 -e POSTGRES_PASSWORD=hivewing -e POSTGRES_USER=hivewing -d postgres
 
-echo "Starting DDB"
-sudo docker rm -f ddb-dev
-sudo docker run -d --name ddb-dev -p 3800:4570  smaj/spurious-dynamo
-sudo docker rm -f ddb-test
-sudo docker run -d --name ddb-test -p 3801:4570 smaj/spurious-dynamo
-
-echo "Starting SimpleDB"
-sudo docker rm -f simpledb-dev
-sudo docker run -d --name simpledb-dev -p 4400:8080 aglover/simpledb-pier
-sudo docker rm -f simpledb-test
-sudo docker run -d --name simpledb-test -p 4401:8080 aglover/simpledb-pier
-
 echo "Starting S3"
 sudo docker rm -f s3-dev
 sudo docker run -d --name s3-dev -p 4200:4569 smaj/spurious-s3
@@ -57,14 +45,6 @@ until nc -z localhost 4300 </dev/null; do sleep 0.1; done
 until nc -z localhost 4301 </dev/null; do sleep 0.1; done
 echo "PG up"
 
-until nc -z localhost 3800 </dev/null; do sleep 0.1; done
-until nc -z localhost 3801 </dev/null; do sleep 0.1; done
-echo "DDB up"
-
-until nc -z localhost 4400 </dev/null; do sleep 0.1; done
-until nc -z localhost 4401 </dev/null; do sleep 0.1; done
-echo "SimpleDB up"
-
 until nc -z localhost 4200 </dev/null; do sleep 0.1; done
 until nc -z localhost 4201 </dev/null; do sleep 0.1; done
 echo "S3 up"
@@ -83,9 +63,6 @@ pushd .
   echo "Migrating database"
   cd ../hivewing-core
   lein ragtime migrate #--database jdbc:postgresql:$HIVEWING_SQL_CONNECTION_STRING
-
-  echo "Setup AWS"
-  lein setup-aws
 
   echo "Seeding DB with admin@example.com"
   lein seed "admin@example.com" $DOCKER_PWD/ssh/admin@example.com.public 12345678-1234-1234-1234-123456789012

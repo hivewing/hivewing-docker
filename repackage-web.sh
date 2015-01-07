@@ -6,7 +6,7 @@ popd
 
 pushd .
 cd web
-cp ../../hivewing-web/target/uberjar/*.uber.jar hivewing-web.uber.jar
+cp ../../hivewing-web/target/*.uber.jar hivewing-web.uber.jar
 ./rebuild.sh
 
 popd
