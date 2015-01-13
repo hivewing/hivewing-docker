@@ -72,9 +72,15 @@ echo "Running hivewing.io/images"
 echo "Images Server running ssh on "
 echo "     localhost:5022"
 echo ""
+
 sudo touch logs/hivewing-images.log
+sudo touch logs/hivewing-spokesman.log
 sudo chmod 777 -R logs
 
 sudo docker rm -f hivewing-images
 sudo docker run -d -p 5022:22 --name hivewing-images --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --link s3-dev:hive-images.hivewing.io.s3 --env-file container.env -v $DOCKER_PWD/logs/hivewing-images.log:/home/git/hivewing-images.log hivewing.io/images
 #sudo docker run -i  -p 5022:22 --name hivewing-images --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/images bash
+
+sudo docker rm -f hivewing-spokesman
+sudo docker run -d  --name hivewing-spokesman --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --link s3-dev:hive-spokesman.hivewing.io.s3 --env-file container.env -v $DOCKER_PWD/logs/hivewing-spokesman.log:/home/hivewing/hivewing-spokesman.log hivewing.io/spokesman
+#sudo docker run -i --name hivewing-spokesman --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/spokesman bash

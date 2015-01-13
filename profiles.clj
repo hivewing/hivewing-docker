@@ -8,6 +8,7 @@
      :hivewing-aws-secret-key "123abc",
      :hivewing-sqs-endpoint "http://127.0.0.1:4100"
      :hivewing-sqs-hive-images-queue "dev-hive-images-changes"
+     :hivewing-sqs-spokesman-queue "dev-spokesman"
      :hivewing-sql-connection-string "//127.0.0.1:4300/hivewing?user=hivewing&password=hivewing"
      :hivewing-gitolite-root "/home/gitolite/.gitolite"
      :hivewing-gitolite-shell-command "/home/gitolite/bin/gitolite"
@@ -24,6 +25,7 @@
      :hivewing-aws-secret-key "123abc",
      :hivewing-sqs-endpoint "http://127.0.0.1:4101/"
      :hivewing-sqs-hive-images-queue "test-hive-images-changes"
+     :hivewing-sqs-spokesman-queue "test-spokesman"
      :hivewing-sql-connection-string "//127.0.0.1:4301/hivewing?user=hivewing&password=hivewing"
      :hivewing-gitolite-shell-command "/home/gitolite/bin/gitolite"
      :hivewing-gitolite-root "/home/gitolite/.gitolite"
