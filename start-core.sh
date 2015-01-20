@@ -75,6 +75,7 @@ echo ""
 
 sudo touch logs/hivewing-images.log
 sudo touch logs/hivewing-spokesman.log
+sudo touch logs/hivewing-processing.log
 sudo chmod 777 -R logs
 
 sudo docker rm -f hivewing-images
@@ -84,3 +85,7 @@ sudo docker run -d -p 5022:22 --name hivewing-images --link redis-dev:redis --li
 sudo docker rm -f hivewing-spokesman
 sudo docker run -d  --name hivewing-spokesman --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --link s3-dev:hive-spokesman.hivewing.io.s3 --env-file container.env -v $DOCKER_PWD/logs/hivewing-spokesman.log:/home/hivewing/hivewing-spokesman.log hivewing.io/spokesman
 #sudo docker run -i --name hivewing-spokesman --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/spokesman bash
+
+sudo docker rm -f hivewing-processing
+sudo docker run -d  --name hivewing-processing --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env -v $DOCKER_PWD/logs/hivewing-processing.log:/home/hivewing/hivewing-processing.log hivewing.io/processing
+#sudo docker run -i --name hivewing-processing --link redis-dev:redis --link pg-dev:pg --link sqs-dev:sqs --link s3-dev:s3 --env-file container.env hivewing.io/processing bash
