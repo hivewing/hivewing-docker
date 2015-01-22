@@ -10,5 +10,3 @@ cp ../../hivewing-web/target/*.uber.jar hivewing-web.uber.jar
 ./rebuild.sh
 
 popd
-
-./start-services.sh

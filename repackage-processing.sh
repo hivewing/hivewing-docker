@@ -9,6 +9,3 @@ cd processing
 cp ../../hivewing-processing/target/*.uber.jar hivewing-processing.uber.jar
 ./rebuild.sh
 popd
-
-./start-core.sh
-./start-services.sh

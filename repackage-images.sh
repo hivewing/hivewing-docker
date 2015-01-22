@@ -11,5 +11,3 @@ cp ../../hivewing-images/target/uberjar/*.uber.jar hivewing-images.uber.jar
 ./rebuild.sh
 
 popd
-
-./start-core.sh

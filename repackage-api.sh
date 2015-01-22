@@ -10,5 +10,3 @@ cd api
 cp ../../hivewing-api/target/*.uber.jar hivewing-api.uber.jar
 ./rebuild.sh
 popd
-
-./start-services.sh

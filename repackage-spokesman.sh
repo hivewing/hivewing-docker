@@ -10,5 +10,3 @@ cp ../../hivewing-spokesman/target/*.uber.jar hivewing-spokesman.uber.jar
 ./rebuild.sh
 
 popd
-
-./start-core.sh
