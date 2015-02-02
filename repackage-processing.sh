@@ -6,6 +6,6 @@ popd
 
 pushd .
 cd processing
-cp ../../hivewing-processing/target/*.uber.jar hivewing-processing.uber.jar
+cp ../../hivewing-processing/target/uberjar/*.uber.jar hivewing-processing.uber.jar
 ./rebuild.sh
 popd

@@ -6,7 +6,7 @@ popd
 
 pushd .
 cd spokesman
-cp ../../hivewing-spokesman/target/*.uber.jar hivewing-spokesman.uber.jar
+cp ../../hivewing-spokesman/target/uberjar/*.uber.jar hivewing-spokesman.uber.jar
 ./rebuild.sh
 
 popd
